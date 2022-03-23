@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector } from 'react-redux'
-import { initDrawState } from "../../services/drawingProcessor";
+import { initDrawState, letsDefaultVariables } from "../../services/drawingProcessor";
 import ChannelItem from "./ChannelItem";
 
 const MainPage = () => {
@@ -12,9 +12,10 @@ const MainPage = () => {
         items.push( <ChannelItem key={i} id={i}/> )        
     }
 
-    // useEffect(() => {
-    //     initDrawState()
-    // },[])
+    useEffect(() => {
+        initDrawState()
+        letsDefaultVariables()
+    },[])
 
     return (
         <>

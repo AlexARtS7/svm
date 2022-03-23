@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { PopoverPicker } from '../colorPicker/PopoverPicker';
 import {changeMinChannel} from '../../store/actionCreators/channelActions';
-import { setXPos, getXPos, setSuppression, getSuppression } from '../../services/drawingProcessor';
+import { setXPos, getXPos, setSuppression, getSuppression, initDrawState } from '../../services/drawingProcessor';
 import { store } from '../../store/store';
 
 var renderBlock = 8
@@ -35,7 +35,7 @@ const ChannelItem = ({id}) => {
         } return arr               
     }
 
-    // генерация шкалы для отрисовки собранного канала
+    // генерация шкалы цифр для отрисовки собранного канала (1...10...20...30 и т.д.)
     const renderElements = () => {
         let str = '. . 0'
         const strTool = ' . . .|. . . '
@@ -69,28 +69,27 @@ const ChannelItem = ({id}) => {
 
     const onChangeReaction = (target) => {
         targetLineRange.current.value = getXPos(id)
-        changeChannelItem(target, 'reaction')
+        changeChannelItem(target.value, 'reaction')
     }
 
     const onRearChange = (target, sub = false) => {
         if(sub) rearRange.current.value = +target.value
-        changeChannelItem(target, 'rear')
+        changeChannelItem(target.value, 'rear')
     }
 
     const onFrontChange = (target, sub = false) => {
         if(sub) frontRange.current.value = +target.value
-        changeChannelItem(target, 'front')
+        changeChannelItem(target.value, 'front')
     }
 
     const onSuppressionChange = (target) => {
         target.value = +target.value
         setSuppression(target, id)
-        suppressChange(target.value, id)
+        changeChannelItem(target.value, 'suppress')
     }
 
     const onTypeSuppressChange = (target) => {
-        stypeChange(target, id)
-        suppressChange(getSuppression(id), id)
+        changeChannelItem(target.value, 'stype')
     }
 
     useEffect(() => {
@@ -113,13 +112,21 @@ const ChannelItem = ({id}) => {
 
     useEffect(() => {
         if(!renderBlock){
+            changeChannelItem(getSuppression(id), 'suppress')
+        }
+    }, [channelItem.stype])
+
+    useEffect(() => {
+        if(!renderBlock){
             const channels = store.getState().channelsReducer.channels
             localStorage.setItem('channels', JSON.stringify(channels))
+            initDrawState()
         }        
     }, [channelItem])
 
     useEffect(() => {
         // changeSampleColor(color, id)
+        changeChannelItem(color, 'color')
     }, [color])
     
     if(renderBlock > 0) renderBlock --
@@ -196,7 +203,7 @@ const ChannelItem = ({id}) => {
                                     max={388}
                                     ref={targetLineRange}
                                     // id={rangeId}
-                                    onMouseUp={(e) => xposChange(e.target, id)}
+                                    onMouseUp={(e) => changeChannelItem(e.target.value, 'xpos')}
                                     onChange={(e) => setXPos(e.target.value, id)}/>                         
                                 <div className={channelItem.reaction > 0 ? 
                                     'channel_render_iline channel_render_iline_norm' :

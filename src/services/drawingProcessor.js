@@ -1,4 +1,3 @@
-import { getState } from 'react'
 import { store } from '../store/store';
 
 var channels,
@@ -8,9 +7,8 @@ var channels,
     xPos = [],
     colorOpacity =[],
     viewOpacity = [],
+    suppression = [],
     visSet;
-
-let suppression = []
 
 // присваивание значений для массивов
 for(let i = 0; i < 12; i++) {
@@ -21,14 +19,16 @@ for(let i = 0; i < 12; i++) {
 
 // инициализация стейта для рисования
 export const initDrawState = () => {
-    channels = store.getState().channels
-    opacityUp = store.getState().opacityUp
-    opacityDown = store.getState().opacityDown
-    opacityMax = store.getState().opacityMax
-    visSet = store.getState().visSet
-    console.log(opacityDown)
+    channels = store.getState().channelsReducer.channels
+    opacityUp = store.getState().elementsReducer.opacityUp
+    opacityDown = store.getState().elementsReducer.opacityDown
+    opacityMax = store.getState().elementsReducer.opacityMax
+    visSet = store.getState().elementsReducer.visSet
+}
+// установка значений по умолчанию
+export const letsDefaultVariables = () => {
     channels.forEach((item, i) => {
-        xPos[i] = item.xpos
+        if(item.reaction === 0) xPos[i] = item.xpos
         if (item.stype === 'manual') {
             suppression[i] = item.suppress
         } else {
@@ -37,6 +37,8 @@ export const initDrawState = () => {
         document.getElementById(`suppression${i}`).value = suppression[i]
     })
 }
+
+console.log(channels)
 // изменение динамических объектов
 export const sampleDrawing = (data) => {
     if(channels){

@@ -5,7 +5,7 @@ import MainPage from "../components/mainPage/MainPage";
 const App = () => {
 
     useEffect(() => {
-        // analyserInitiate()
+        analyserInitiate()
     },[])
 
     return (
