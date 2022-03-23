@@ -1,0 +1,266 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@100;200;300;400;700&display=swap');
+
+// variables
+$textcolor: #ffffff;
+$globalback: #14160f;
+
+* {
+    font-family: 'Montserrat Alternates', sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
+body {
+    background-color: $globalback;
+}
+
+select {
+    background-color:#0a0a0a;
+    color: $textcolor;
+    user-select: none;
+    border-radius: 4px;
+}
+
+div {
+    color: $textcolor;
+    user-select: none;
+    border-radius: 4px;
+}
+
+.app {
+    margin-top: 20px;
+    position: absolute;
+    width: 1300px;
+    margin-left: -650px; 
+    left: 50%;
+    &_line {
+        background-color: white;
+        height: 1px;
+        width: 100%;
+        margin-bottom: 2px;
+    }
+    &_block {
+        padding: 5px 10px;
+        margin-bottom: 4px;
+        background-color:#0a0a0a;
+        border-radius: 4px;
+        border: 0.5px solid white;
+        opacity: .8;
+    }
+    &_flex {
+        display: flex;
+        &_between {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+    &_center {
+        text-align: center;
+    }
+}
+
+.main {
+    &_header {
+        font-size: 20px;
+    }
+}
+
+.channel {
+    &_item {
+        height: 112px;
+    }
+    &_mr {
+        margin-right: 6px;
+        &_mini {
+            margin-right: 3px;
+        }
+    }
+    &_mb {
+        margin-bottom: 6px;
+    }
+    &_block {
+        padding: 4px 6px;
+        background-color:#0a0a0a;
+        border-radius: 4px;
+        border: 0.5px solid white;
+        opacity: .8;
+        &_mod {
+            padding: 2px 4px;
+            background-color:#0a0a0a;
+            border-radius: 4px;
+            border: 0.5px solid white;
+            opacity: .8;
+            margin-top: 1px;
+            height: 63px;
+            position: relative;
+        }
+    }
+    &_content {
+        width: 100%;
+    }
+    &_label {
+        font-size: 12px;
+    }
+    &_indicator {
+        height: 100%;
+        width: 20px;
+        background-color:#0a0a0a;
+        border-radius: 3px;
+        border: 0.5px solid white;
+        opacity: .8;
+        margin-right: 10px;
+        &_div {
+            height: 100%;
+            width: 100%;
+            border-radius: 3px;
+        }
+    }
+    &_select {
+        padding: 0 15px;
+        cursor: pointer;
+        margin-top: 1px;
+        &_sup {
+            padding: 0 26px;
+            cursor: pointer;
+            height: 29px;
+        }
+        &_mod {
+            padding: 0 32px;
+            cursor: pointer;
+        }
+    } 
+    &_render {
+        height: 63px;
+        margin-top: 1px;
+        width: 400px;
+        position: relative;
+        &_div {
+            background-color: white;
+            height: 40px;
+            // width: 70px;
+            position: absolute;
+            // bottom: 5px;
+        }
+        &_vline {
+            position: absolute;
+            background-color:rgb(253, 253, 253);
+            width: 387px;
+            height: 1px;
+            // right: 5px;
+            bottom: 3px;
+        }
+        &_ili {
+            position: absolute;
+            height: 18px;
+            width: 1px;
+            background-color:rgb(253, 253, 253);
+            bottom: 2px;
+        }
+        &_iline {
+            position: absolute;
+            background-color:rgb(253, 253, 253);
+            width: 1px;             
+            &_norm {
+                height: 55px;
+                bottom: 2px;
+            }
+            &_mini {
+                height: 42px;
+                bottom: 15px;
+            }
+        }
+        &_scale {
+            font-size: 6px;
+            position: absolute;
+            bottom:4px;
+            background-color: #474545;
+            border-radius: 0;
+        }
+    } 
+    &_range {
+        position: absolute;
+        height: 0;
+        width: 387px;
+        -webkit-appearance: none;
+        bottom: 8px;  
+        z-index: 10;
+        &_hidden {
+            opacity: 0;
+        }     
+    } 
+    &_range::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        cursor: pointer;
+        // background:white;
+        border: 1px solid #ffffff;
+        width: 10px;
+        height: 15px;
+    }
+    &_bufrange {
+        background:#868686;
+        border: 0.5 solid black;
+        height: 2px;
+        width: 98px;
+        -webkit-appearance: none;
+        margin-top: 26px; 
+        &_reverse {
+            -webkit-transform: rotateY(180deg);
+            -moz-transform: rotateY(180deg);
+            -ms-transform: rotateY(180deg);
+            -o-transform: rotateY(180deg);
+            transform: rotateY(180deg);
+        }
+    } 
+    &_bufrange::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        cursor: pointer;
+        background:white;
+        border: 1px solid #ffffff;
+        width: 7px;
+        height: 18px;
+        border-radius: 3px;
+        z-index: 12;
+    }
+    &_bufscale {
+        font-size: 6px;
+        position: absolute;
+        bottom: 27px;
+        background-color: #474545;
+        border-radius: 0;
+        padding: 2px 0;
+    }
+}
+//picker
+.small .react-colorful {
+    width: 120px;
+    height: 120px;
+    z-index: 12200;
+  }
+
+  .picker {
+    position: relative;
+    // z-index: 800;
+  }
+  
+  .swatch {
+    //   z-index: 900;
+    width: 120px;
+    height: 16.5px;
+    border-radius: 8px 2px 2px 8px;
+    margin-top: 5px;
+    border: 0.5px solid rgb(196, 195, 195);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+  
+  .popover {
+    // z-index: 1000;
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 0;
+    border-radius: 9px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
