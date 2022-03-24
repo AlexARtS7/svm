@@ -18,7 +18,8 @@ export const PopoverPicker = ({ color, onChange }) => {
     <div className="picker">
       <div
         className="swatch"
-        style={{ background: `linear-gradient(to top, #000000, ${color}, #000000) ` }}
+        // style={{ background: `linear-gradient(to top, #000000, ${color}, #000000) ` }}
+        style={{ background: color}}
         onClick={() => toggle(true)}
       />
 

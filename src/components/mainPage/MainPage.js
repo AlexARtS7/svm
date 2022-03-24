@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSelector } from 'react-redux'
 import { initDrawState, letsDefaultVariables } from "../../services/drawingProcessor";
+import ControlPanel from "./ControlPanel";
 import ChannelItem from "./ChannelItem";
 
 const MainPage = () => {
@@ -22,6 +23,7 @@ const MainPage = () => {
             <header className='app_block main_header'>
                 SoundVisualMachine
             </header>
+            <ControlPanel/>
             {items}
         </>        
     )

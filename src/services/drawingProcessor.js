@@ -1,6 +1,7 @@
 import { store } from '../store/store';
 
-var channels,
+var ctx,
+    channels,
     opacityDown, 
     opacityUp, 
     opacityMax,
@@ -8,6 +9,8 @@ var channels,
     colorOpacity =[],
     viewOpacity = [],
     suppression = [],
+    markers = [],
+    spectrumColor,
     visSet;
 
 // присваивание значений для массивов
@@ -16,14 +19,22 @@ for(let i = 0; i < 12; i++) {
     colorOpacity[i] = 0.1;
     viewOpacity[i] = 0.1;
 }
-
 // инициализация стейта для рисования
 export const initDrawState = () => {
     channels = store.getState().channelsReducer.channels
+    spectrumColor = store.getState().elementsReducer.spectrumColor
     opacityUp = store.getState().elementsReducer.opacityUp
     opacityDown = store.getState().elementsReducer.opacityDown
     opacityMax = store.getState().elementsReducer.opacityMax
     visSet = store.getState().elementsReducer.visSet
+
+    markers = [];
+    channels.forEach((item, i) => {
+        for(let f = item.min; f <= item.max ; f++){
+            markers[f] = channels[i].color
+            
+        }
+    })
 }
 // установка значений по умолчанию
 export const letsDefaultVariables = () => {
@@ -37,15 +48,12 @@ export const letsDefaultVariables = () => {
         document.getElementById(`suppression${i}`).value = suppression[i]
     })
 }
-
-console.log(channels)
 // изменение динамических объектов
 export const sampleDrawing = (data) => {
     if(channels){
         channels.forEach((item, i) => {
 
         let mass;
-
          // сборка каналов с использованием средних значений (average)
         if(item.assemble === 'average'){
             let arr = [];
@@ -54,7 +62,6 @@ export const sampleDrawing = (data) => {
             }
             mass = arr.reduce((a, b) => (a + b)) / arr.length        
         }
-
         // сборка каналов с использованием максимального значения (maximum)
         if(item.assemble === 'maximum'){
             mass = 0;
@@ -62,7 +69,6 @@ export const sampleDrawing = (data) => {
                 if(mass < data[f]) mass = Math.floor(data[f])                               
             }                  
         }
-
         // сборка каналов с использованием суммы значений (summ)
         if(item.assemble === 'summ'){
             mass = 0;
@@ -70,7 +76,6 @@ export const sampleDrawing = (data) => {
                 mass += data[f]                             
             }                  
         }
-
         // проверка mass переменной на максимум / подавление
         if(suppression[i] > 1) mass = mass/suppression[i]          
         const setSuppression = (option) => {
@@ -84,7 +89,7 @@ export const sampleDrawing = (data) => {
             if(suppression[i] < 50 && item.stype === 'avto') setSuppression(+1)
         }          
         if(mass < 20 && suppression[i] > 0 && item.stype === 'avto') setSuppression(-1) 
-        
+
         // установка позиции линии срабатывания
         if(xPos[i] < mass-item.front){
             xPos[i] +=item.reaction
@@ -99,7 +104,7 @@ export const sampleDrawing = (data) => {
 
         // срабатывание (уменьшение/увеличение прозрачности для визуализирующих сигнал элементов)
         if(mass>xPos[i]){
-            colorOpacity[i] +=0.1;
+            colorOpacity[i] +=0.2;
             viewOpacity[i] += opacityUp;
             if(colorOpacity[i] > 1) colorOpacity[i] = 1;
             if(viewOpacity[i] > opacityMax) viewOpacity[i] = opacityMax;
@@ -146,3 +151,72 @@ export const setSuppression = (target, id) => {
 }
 // получение переменной массива "подавление"
 export const getSuppression = (id) => suppression[id]
+
+// canvas
+// инициализация canvas
+export const canvasInitiation = () => {
+    const canvas = document.getElementById("canvasDisplay");
+    ctx = canvas.getContext('2d');
+    canvas.height = 70;
+	canvas.width  = 1279;
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#ffffff';
+    ctx.strokeRect(0.5, 65.5, 1278, 2.5);    
+    // for ( let i = 0 ; i < 319 ; i++) { 
+    //     console.log('i: ' + i)
+    //     for ( let f = i * 2; f < i*2 + 2; f ++ ) {
+    //         console.log('f: ' + f)
+    //     }
+    // }
+}
+// рисование на canvas
+export const canvasDraw = (data) => {    
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, 1279, 65) 
+    const renderLeftMargin = 2
+    const renderMargin = 2
+    const renderWidth = 1.9
+
+    //assemblerendering
+    for ( let i = 0 ; i < 637 ; i++) {       
+        let vrbData = data[i] / 4
+        if(vrbData > 70) vrbData = 70;
+
+        // markers
+        if(markers[i]){
+            ctx.globalAlpha = 0.018 * vrbData;
+            ctx.fillStyle = markers[i];
+            ctx.fillRect(renderLeftMargin+i*renderMargin, 64-vrbData, renderWidth, -70 - vrbData);
+            ctx.globalAlpha = 1;
+        }
+
+        ctx.globalAlpha = 0.05 * vrbData;
+            ctx.fillStyle = spectrumColor;
+            ctx.fillRect(renderLeftMargin+i*renderMargin, 64, renderWidth, -vrbData);
+        
+        ctx.globalAlpha = 1;
+
+        // if(peaksStatus){
+        // Пики
+        // if(peaksX[i] < vrbData){
+        //     peaksX[i] = vrbData + 2;
+        //     peaksW[i] = 20;
+        //     peaksA[i] = 0;
+        //     peaksC[i] = 1
+        // }             
+        // ctx.globalAlpha = peaksC[i];
+        // ctx.fillStyle = renderColor;
+        // ctx.fillRect(marginLeft+margin*i*2, 151.5 - peaksX[i], width, 1);        
+        // ctx.globalAlpha = 1;
+        
+            // if (peaksW[i] > 0 ) {
+            //     peaksW[i] -= 0.5;
+            // } else {
+            //     if (peaksX[i] > 5) peaksX[i] -= peaksA[i]; else peaksX[i] = 0;
+            //     if (peaksC[i] > 0) peaksC[i] -= 0.03;
+            //     peaksA[i] += 0.1
+            // }   
+        }            
+    }
+    

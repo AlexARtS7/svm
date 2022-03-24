@@ -233,24 +233,43 @@ div {
         padding: 2px 0;
     }
 }
+
+.control {    
+    &_mr {
+        margin-right: 6px;
+        &_mini {
+            margin-right: 3px;
+        }
+    }
+    &_mb {
+        margin-bottom: 6px;
+    }
+    &_block {
+        padding: 4px 6px;
+        background-color:#0a0a0a;
+        border-radius: 4px;
+        border: 0.5px solid white;
+        opacity: .8;
+    }
+}
+
 //picker
 .small .react-colorful {
-    width: 120px;
-    height: 120px;
-    z-index: 12200;
+    width: 140px;
+    height: 90px;
+    z-index: 15;
   }
 
   .picker {
     position: relative;
-    // z-index: 800;
+    z-index: 8;
   }
   
   .swatch {
-    //   z-index: 900;
-    width: 120px;
-    height: 16.5px;
+    width: 50px;
+    height: 14px;
     border-radius: 8px 2px 2px 8px;
-    margin-top: 5px;
+    // margin-top: 5px;
     border: 0.5px solid rgb(196, 195, 195);
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
     cursor: pointer;
@@ -260,7 +279,7 @@ div {
     // z-index: 1000;
     position: absolute;
     top: calc(100% + 2px);
-    left: 0;
+    left: -90px;
     border-radius: 9px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }

@@ -3,6 +3,7 @@ const getItem = (item) => {
 }
 
 const defaultState = {
+    spectrumColor: getItem('spectrumColor') === null ? '#00FF00' : getItem('spectrumColor'),
     opacityUp: getItem('opacityUp') === null ? 0.09 : +getItem('opacityUp'),
     opacityDown: getItem('opacityDown') === null ? 0.03 : +getItem('opacityDown'),
     opacityMax: getItem('opacityMax') === null ? 1 : +getItem('opacityMax'),

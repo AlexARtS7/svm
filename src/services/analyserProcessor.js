@@ -1,6 +1,6 @@
 import { appProceccor } from "./appProcessor";
 
-var ctx, analyser, src, data = new Uint8Array(1024);
+var ctx, analyser, src, data = new Uint8Array(637);
 
 // инициализация звуковых устройств ввода
 export const analyserInitiate = () => {
@@ -15,10 +15,10 @@ export const analyserInitiate = () => {
         src.connect(analyser);
         appProceccor();
     }).catch(error => {    
-        alert(error + '\r\n\ Отклонено.');        
+        alert(error);        
         setTimeout(() => {
             analyserInitiate();
-        }, 5000)        
+        }, 3000)        
     });
 }
 // получение и преобразование звуковых данных

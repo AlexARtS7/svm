@@ -1,10 +1,10 @@
-import { sampleDrawing } from "./drawingProcessor";
+import { sampleDrawing, canvasDraw } from "./drawingProcessor";
 import { getData} from "./analyserProcessor";
 
 const appProceccor = () => {
     requestAnimationFrame(appProceccor);
     const data = getData()
-    // drawingProcessor(data);
+    canvasDraw(data);
     sampleDrawing(data);
 }
 

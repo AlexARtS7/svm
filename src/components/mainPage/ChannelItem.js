@@ -125,8 +125,10 @@ const ChannelItem = ({id}) => {
     }, [channelItem])
 
     useEffect(() => {
+        if(!renderBlock){
         // changeSampleColor(color, id)
         changeChannelItem(color, 'color')
+        }
     }, [color])
     
     if(renderBlock > 0) renderBlock --
@@ -137,7 +139,8 @@ const ChannelItem = ({id}) => {
                 <div className='channel_indicator_div' id={trId}></div></div>
                 <div className='channel_content'>
                     <div className='app_flex_between'>
-                        <div className='channel_label'>Канал: {channelItem.mark}</div>
+                        <div className='channel_label'>
+                            Канал: <span style={{ fontSize: '15px', color: '#00FF00'}}>{channelItem.mark}</span></div>
                         <section className="small example">
                             <PopoverPicker color={color} onChange={setColor}/>
                         </section>
@@ -154,7 +157,7 @@ const ChannelItem = ({id}) => {
                                 onMouseLeave={(e) => scrollTo(e.target, channelItem.min)}
                                 onChange={(e) => changeChannelItem(e.target.value, 'min')}
                                 >
-                                {selectElements(1022)}
+                                {selectElements(636)}
                             </select>
                         </div>
                         <div className='app_center channel_mr'>
@@ -166,7 +169,7 @@ const ChannelItem = ({id}) => {
                                 onMouseLeave={(e) => scrollTo(e.target, channelItem.max)}
                                 onChange={(e) => changeChannelItem(e.target.value, 'max')}
                                 >
-                                {selectElements(1022)}
+                                {selectElements(636)}
                             </select>
                         </div>                        
                         <div className='app_center channel_mr'>
@@ -183,7 +186,7 @@ const ChannelItem = ({id}) => {
                             </select>
                         </div>
                         <div className='app_center channel_mr'>
-                            <div>Собранный канал и линия срабатывания</div>
+                            <div>Собранный канал / Пик срабатывания</div>
                             <div className='channel_block channel_render app_flex'>
                                 <div className='channel_render_div' id={divId}></div>
                                 <div className='channel_render_vline'></div>
